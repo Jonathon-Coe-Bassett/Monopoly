@@ -3,7 +3,14 @@ public abstract class Property
 	{
 		protected String name;
 		protected int price;
-		protected abstract void landedOn();
+		protected Player owner;
+		protected boolean owned;
+//		public Property(String s, int p)
+//		{
+//			name=s;
+//			price=p;
+//		}
+		protected abstract void landedOn(Player p);
 		protected String getName()
 			{
 				return name;

@@ -3,11 +3,11 @@ public class Player
 	{
 		private ArrayList<Property> owned =new ArrayList<Property>();
 		private Property location;
-		private int money;
+		private int money, jailCount;
 		private boolean jail;
 		public Player()
 		{
-			money=0;
+			money=1500;
 			//location=Board.get(0);
 			jail=false;
 		}
@@ -18,7 +18,27 @@ public class Player
 		}
 		protected void landsOn(Property p)
 		{
-			p.landedOn();
+			p.landedOn(this);
+		}
+		protected void checkJail()
+		{
+			if(jail)
+				{
+					this.setLocation(Board.MAP.getSpace(10));
+					//10 is temp
+					if(jailCount>=3)
+						{
+							System.out.println("You're out of jail.");
+							jail=false;
+						}
+					System.out.println("would you like to pay [$50] to get out?");
+					if(GetInfo.yn())
+						{
+							this.setMoney(getMoney()-50);
+							jail=false;
+						}
+					jailCount++;
+				}
 		}
 		protected ArrayList<Property> getOwned()
 			{
