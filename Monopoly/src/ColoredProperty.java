@@ -29,7 +29,7 @@ public class ColoredProperty extends Property
 			{
 				System.out.println("You have landed on "+ getName());
 				if(!owned)
-				System.out.println("Would you like to buy " + getName() + "?");
+				System.out.println("Would you like to buy " + getName() +" for "+ getPrice() + "?");
 				if(GetInfo.yn())
 				{
 					p.buy(this);

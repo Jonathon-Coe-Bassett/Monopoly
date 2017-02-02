@@ -2,14 +2,14 @@
 public class Square extends Property
 	{
 		private boolean toJail;
-		private int space;
+		//private int space;
 		public Square(String s, int p, boolean t)
 		{
 			super.name=s;
 			super.price=p;
 			owner=null;
 			toJail=t;
-			space=(Board.MAP.size()-1);
+			//space=(getNextSpace());
 		}
 	@Override
 	protected void landedOn(Player p)
@@ -21,5 +21,9 @@ public class Square extends Property
 				}
 			p.setMoney(p.getMoney()+price);
 		}
+	public static int getNextSpace()
+	{
+		return MonopolyRunner.MAP.size()-1;
+	}
 
 	}

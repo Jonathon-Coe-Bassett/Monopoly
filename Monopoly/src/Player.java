@@ -5,11 +5,27 @@ public class Player
 		private Property location;
 		private int money, jailCount;
 		private boolean jail;
+		public static boolean run;
 		public Player()
 		{
 			money=1500;
-			//location=Board.get(0);
+			location=MonopolyRunner.MAP.getSpace(0);
 			jail=false;
+			run=true;
+		}
+		public void gameDriver()
+			{
+				while(run)
+					{
+				this.checkBankrupcy();
+				this.checkJail();
+				this.move();
+				this.landsOn(this.getLocation());
+					}
+			}
+		protected void printInfo()
+		{
+			
 		}
 		protected void buy(Property p)
 		{
@@ -18,13 +34,49 @@ public class Player
 		}
 		protected void landsOn(Property p)
 		{
+			System.out.println("You are on " +p.getName() + ".");
 			p.landedOn(this);
+		}
+		protected void move()
+		{
+			int y = GetInfo.rollDice(2, 6);
+
+			if(y + MonopolyRunner.MAP.getGameBoard().indexOf(this.location)>=MonopolyRunner.MAP.getGameBoard().size())
+				{
+//					x=(0+(MonopolyRunner.MAP.getGameBoard().size()-MonopolyRunner.MAP.getGameBoard().indexOf(this.getLocation())));
+					y = (y + MonopolyRunner.MAP.getGameBoard().indexOf(this.location))- MonopolyRunner.MAP.getGameBoard().size();
+				}
+			this.setLocation(MonopolyRunner.MAP.getSpace(y));
+		}
+		public static boolean isRun()
+			{
+				return run;
+			}
+		public static void setRun(boolean run)
+			{
+				Player.run = run;
+			}
+		protected void checkBankrupcy()
+		{
+			if(this.getMoney()<=0)
+				{
+					System.out.println("GAME OVER");
+					this.run=false;
+				}
+		}
+		
+		protected void displayOwned()
+		{
+			for(Property p: owned)
+				{
+					System.out.println(p.getName());
+				}
 		}
 		protected void checkJail()
 		{
 			if(jail)
 				{
-					this.setLocation(Board.MAP.getSpace(10));
+					this.setLocation(MonopolyRunner.MAP.getSpace(10));
 					//10 is temp
 					if(jailCount>=3)
 						{
