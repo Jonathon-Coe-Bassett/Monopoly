@@ -12,20 +12,27 @@ public class Player
 			location=MonopolyRunner.MAP.getSpace(0);
 			jail=false;
 			run=true;
+			
 		}
 		public void gameDriver()
 			{
-				while(run)
+				while(run && this.checkBankrupcy())
 					{
-				this.checkBankrupcy();
 				this.checkJail();
+				this.printInfo();
 				this.move();
 				this.landsOn(this.getLocation());
 					}
 			}
 		protected void printInfo()
 		{
-			
+			System.out.println();
+			System.out.println("You have $" + this.getMoney() + ".00");
+			System.out.println("You own these squares:");
+			for(Property p: this.owned)
+			{
+				System.out.println("  " + p.getName() + "  $" + p.getPrice() + ".00");
+			}
 		}
 		protected void buy(Property p)
 		{
@@ -34,19 +41,22 @@ public class Player
 		}
 		protected void landsOn(Property p)
 		{
-			System.out.println("You are on " +p.getName() + ".");
+			//System.out.println("You are on " +p.getName() + ".");
 			p.landedOn(this);
 		}
 		protected void move()
 		{
 			int y = GetInfo.rollDice(2, 6);
 
-			if(y + MonopolyRunner.MAP.getGameBoard().indexOf(this.location)>=MonopolyRunner.MAP.getGameBoard().size())
+			if(y + MonopolyRunner.MAP.getGameBoard().indexOf(this.location) > MonopolyRunner.MAP.getGameBoard().size())
 				{
 //					x=(0+(MonopolyRunner.MAP.getGameBoard().size()-MonopolyRunner.MAP.getGameBoard().indexOf(this.getLocation())));
 					y = (y + MonopolyRunner.MAP.getGameBoard().indexOf(this.location))- MonopolyRunner.MAP.getGameBoard().size();
+					System.out.println("You passed GO, collected $200.00");
+					this.setMoney(this.getMoney()+200);
 				}
 			this.setLocation(MonopolyRunner.MAP.getSpace(y));
+			System.out.println();
 		}
 		public static boolean isRun()
 			{
@@ -56,13 +66,15 @@ public class Player
 			{
 				Player.run = run;
 			}
-		protected void checkBankrupcy()
+		protected boolean checkBankrupcy()
 		{
 			if(this.getMoney()<=0)
 				{
 					System.out.println("GAME OVER");
 					this.run=false;
+					return false;
 				}
+			return true;
 		}
 		
 		protected void displayOwned()
@@ -74,19 +86,20 @@ public class Player
 		}
 		protected void checkJail()
 		{
-			if(jail)
+			while(jail)
 				{
-					this.setLocation(MonopolyRunner.MAP.getSpace(10));
+					this.setLocation(MonopolyRunner.MAP.getSpace(Board.jailIndex));
 					//10 is temp
 					if(jailCount>=3)
 						{
-							System.out.println("You're out of jail.");
+						System.out.println("You're out of jail.");
 							jail=false;
 						}
 					System.out.println("would you like to pay [$50] to get out?");
 					if(GetInfo.yn())
 						{
 							this.setMoney(getMoney()-50);
+							System.out.println("You're out of jail.");
 							jail=false;
 						}
 					jailCount++;

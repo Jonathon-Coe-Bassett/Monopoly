@@ -11,6 +11,18 @@ public abstract class Property
 //			price=p;
 //		}
 		protected abstract void landedOn(Player p);
+		public Player getOwner() {
+			return owner;
+		}
+		public void setOwner(Player owner) {
+			this.owner = owner;
+		}
+		public boolean isOwned() {
+			return owned;
+		}
+		public void setOwned(boolean owned) {
+			this.owned = owned;
+		}
 		protected String getName()
 			{
 				return name;

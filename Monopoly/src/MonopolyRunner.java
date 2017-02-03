@@ -12,6 +12,10 @@ public class MonopolyRunner
 		public static void welcomePlayer()
 		{
 			System.out.println("Welcome to Monopoly!");
+			System.out.println("You are on GO");
+			System.out.println("Press enter to begin.");
+			Scanner ui=new Scanner(System.in);
+			String in=ui.nextLine();
 		}
 		
 
