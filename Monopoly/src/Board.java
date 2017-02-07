@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class Board
 	{
@@ -8,21 +9,25 @@ public class Board
 		{
 			gameBoard =new ArrayList<Property>();
 			//gameBoard.add(null);
-			gameBoard.add(0, new Square("GO", 200, false));
+			//gameBoard.add(0, new Square(null, 0, false));
+			gameBoard=fillClassicBoard();
 		}
-		public void fillBoard()
+		public static ArrayList<Property> fillClassicBoard()
 		{
+			ArrayList<Property> gameBoard=new ArrayList<>();
+			gameBoard.add(0, new Square("GO", 200, false));
 			gameBoard.add(new ColoredProperty("Old Kent Road", 60));
 			gameBoard.add(new CardSquare("Community Chest", 1));
 			gameBoard.add(new ColoredProperty("Baltic Avenue", 60));
 			gameBoard.add(new Square("Income Tax", -200, false));
-			gameBoard.add(new ColoredProperty("Railroad Marylebone Station", 500));
+			gameBoard.add(new ColoredProperty("Railroad Reading Station", 500));
 			gameBoard.add(new ColoredProperty("Oriental Avenue", 100));
 			gameBoard.add(new CardSquare("Chance", 0));
 			gameBoard.add(new ColoredProperty("Vermont Avenue", 100));
 			gameBoard.add(new ColoredProperty("Connecticut Avenue", 100));
 			gameBoard.add(new Square("JAIL", 0, false)); /*SUPER IMPORTANT*/jailIndex=gameBoard.size()-1;
 			gameBoard.add(new ColoredProperty("St. Charles Place", 140));
+			
 			gameBoard.add(new Utility("Electric CO", 150));
 			gameBoard.add(new ColoredProperty("States Avenue", 140));
 			gameBoard.add(new ColoredProperty("Virginia Avenue", 160));
@@ -40,6 +45,7 @@ public class Board
 			gameBoard.add(new ColoredProperty("Atlantic Avenue", 260));
 			gameBoard.add(new ColoredProperty("Ventnor Avenue", 260));
 			gameBoard.add(new Utility("Water Works", 150));
+			gameBoard.add(new ColoredProperty("Mirivan Gardens", 280));
 			gameBoard.add(new Square("Go to Jail", 0, true));
 			gameBoard.add(new ColoredProperty("Pacific Avenue", 300));
 			gameBoard.add(new ColoredProperty("North Carolina Avenue", 300));
@@ -51,7 +57,21 @@ public class Board
 			gameBoard.add(new Square("Luxury Tax", -100, false));
 			gameBoard.add(new ColoredProperty("Boardwalk", 400));
 			//phew
+			return gameBoard;
 			
+		}
+		public static ArrayList<Property> fill14erBoard() throws IOException
+		{
+			Scanner file=new Scanner(new File("14ers.txt"));
+			ArrayList<Property> gameBoard=fillClassicBoard();
+			int i=0;
+			while(i<gameBoard.size())
+				{
+				String y=file.nextLine();
+ 				gameBoard.get(i).setName(y);
+ 				i++;
+				}
+			return gameBoard;
 		}
 //		public ArrayList<Property> getGameBoard()
 //			{

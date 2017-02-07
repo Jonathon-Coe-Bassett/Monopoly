@@ -39,4 +39,8 @@ public abstract class Property
 			{
 				this.price = price;
 			}
+		public String toString()
+		{
+			return this.getName();
+		}
 	}

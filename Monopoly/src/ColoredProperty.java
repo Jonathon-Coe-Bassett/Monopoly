@@ -29,7 +29,7 @@ public class ColoredProperty extends Property
 			{
 				System.out.println("You have landed on "+ getName());
 				if(!this.isOwned())
-				System.out.println("Would you like to buy " + getName() +" for "+ getPrice() + "?");
+				System.out.println("Would you like to buy " + getName() +" for "+ getPrice() + " "+ MonopolyRunner.edition.getCurrency() + " ?");
 				if(GetInfo.yn())
 				{
 					p.buy(this);
