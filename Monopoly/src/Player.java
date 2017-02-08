@@ -136,7 +136,7 @@ public class Player
 					this.directionNormal=false;
 					if(jailCount>=20)
 						{
-						System.out.println("You're out of jail.");
+						System.out.println("You're out of " + MonopolyRunner.MAP.getGameBoard().get(Board.jailIndex));
 							jail=false;
 						}
 					System.out.println("Would you like to pay off the city [1000.00 " + MonopolyRunner.edition.getCurrency() + "] to get out?");
