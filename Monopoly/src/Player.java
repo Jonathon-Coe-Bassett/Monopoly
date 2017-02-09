@@ -24,6 +24,7 @@ public class Player
 				this.checkJail();
 				this.printInfo();
 				this.move();
+				if(!jail)
 				this.landsOn(this.getLocation());
 					}
 			}
@@ -65,32 +66,40 @@ public class Player
 			System.out.println("Press enter to roll.");
 			Scanner ui=new Scanner(System.in);
 			String in=ui.nextLine();
-			int y = GetInfo.rollDice(2, 6);
-			if(this.directionNormal)
+			if(in.equals("jail"))
 				{
-			if((this.getIndex() + y) >= MonopolyRunner.MAP.getGameBoard().size())
-				{
-					y=(MonopolyRunner.MAP.getGameBoard().size()+y)-MonopolyRunner.MAP.getGameBoard().size();
-					this.setIndex(y);
-					y=0;
-					this.setMoney(this.getMoney()+200);
-					System.out.println("Passed " + MonopolyRunner.MAP.getGameBoard().get(0) + ", gained 200 " + MonopolyRunner.edition.getCurrency());
-				}
-			this.setLocation(MonopolyRunner.MAP.getGameBoard().get(this.getIndex()+y));
-			
+					this.setJail(true);
+					
 				}
 			else
 				{
-					if((this.getIndex() - y) < 0)
+					int y = GetInfo.rollDice(2, 6);
+					if(this.directionNormal)
+						{
+					if((this.getIndex() + y) >= MonopolyRunner.MAP.getGameBoard().size())
 						{
 							y=(MonopolyRunner.MAP.getGameBoard().size()+y)-MonopolyRunner.MAP.getGameBoard().size();
 							this.setIndex(y);
 							y=0;
-							this.setMoney(this.getMoney()-200);
-							System.out.println("Passed " + MonopolyRunner.MAP.getGameBoard().get(0) + ", lost 200 " + MonopolyRunner.edition.getCurrency());
+							this.setMoney(this.getMoney()+200);
+							System.out.println("Passed " + MonopolyRunner.MAP.getGameBoard().get(0) + ", gained 200 " + MonopolyRunner.edition.getCurrency());
 						}
-					this.setLocation(MonopolyRunner.MAP.getGameBoard().get(this.getIndex()-y));
+					this.setLocation(MonopolyRunner.MAP.getGameBoard().get(this.getIndex()+y));
 					
+						}
+					else
+						{
+							if((this.getIndex() - y) < 0)
+								{
+									y=(MonopolyRunner.MAP.getGameBoard().size()+y)-MonopolyRunner.MAP.getGameBoard().size();
+									this.setIndex(y);
+									y=0;
+									this.setMoney(this.getMoney()-200);
+									System.out.println("Passed " + MonopolyRunner.MAP.getGameBoard().get(0) + ", lost 200 " + MonopolyRunner.edition.getCurrency());
+								}
+							this.setLocation(MonopolyRunner.MAP.getGameBoard().get(this.getIndex()-y));
+							
+						}
 				}
 			
 		}
@@ -132,6 +141,7 @@ public class Player
 		{
 			while(jail)
 				{
+					System.out.println("You've been arrested!");
 					this.setLocation(MonopolyRunner.MAP.getSpace(Board.jailIndex));
 					this.directionNormal=false;
 					if(jailCount>=20)
@@ -139,7 +149,7 @@ public class Player
 						System.out.println("You're out of " + MonopolyRunner.MAP.getGameBoard().get(Board.jailIndex));
 							jail=false;
 						}
-					System.out.println("Would you like to pay off the city [1000.00 " + MonopolyRunner.edition.getCurrency() + "] to get out?");
+					System.out.println("Would you like to pay off the bank [1000.00 " + MonopolyRunner.edition.getCurrency() + "] to get out?");
 					if(GetInfo.yn())
 						{
 							this.setMoney(getMoney()-1000);
